@@ -10,21 +10,21 @@ document.addEventListener('DOMContentLoaded', function () { //Стандартн
         let error = formValidate(form);//проверка содержимого (валидация) формы
 
         let formData = new FormData(form); //собираем все данные полей
-      //  formData.append('image', formImage.files[0]); //добавляем туда еще изображение
+        //  formData.append('image', formImage.files[0]); //добавляем туда еще изображение
 
         if (error === 0) {
             form.classList.add('_sending');
             let response = await fetch('sendmail.php', {
-                method: 'post',
+                method: 'POST',
                 body: formData
             });
-            if(response.ok){
+            if (response.ok) {
                 let result = await response.json();
                 alert(result.message);
                 formPreview.innerHTML = '';
                 form.reset();
                 form.classList.remove('_sending');
-            }else{
+            } else {
                 alert("Ошибка");
                 form.classList.remove('_sending');
             }
@@ -74,34 +74,34 @@ document.addEventListener('DOMContentLoaded', function () { //Стандартн
     function emailTest(input) {
         return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(input.value);
     }
-
-    //получение input файла в переменную
-    const formImage = document.getElementById('formImage');
-    //получаем div для превью в переменную 
-    const formPreview = document.getElementById('formPreview');
-    // слушаем изменения в инпуте file
-    formImage.addEventListener('change', () => {
-        uploadFile(formImage.files[0]);
-    });
-    /*function uploadFile(file) {
-        //проверяем тип файла
-        if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
-            alert('Разрешены только изображения.');
-            formImage.value = '';
-            return;
-        }
-        //проверяем размер файла
-        if (file.size > 2 * 1024 * 1024) {
-            alert('Размер файла должен быть менее 2 МБ');
-            return;
-        }
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            formPreview.innerHTML = `<img src="${e.target.result}" alt="фото">`;
-        };
-        reader.onerror = function (e) {
-            alert('Ошибка');
-        };
-        reader.readAsDataURL(file);
-    }*/
+    /*
+        //получение input файла в переменную
+        const formImage = document.getElementById('formImage');
+        //получаем div для превью в переменную 
+        const formPreview = document.getElementById('formPreview');
+        // слушаем изменения в инпуте file
+        formImage.addEventListener('change', () => {
+            uploadFile(formImage.files[0]);
+        });
+        function uploadFile(file) {
+            //проверяем тип файла
+            if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+                alert('Разрешены только изображения.');
+                formImage.value = '';
+                return;
+            }
+            //проверяем размер файла
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Размер файла должен быть менее 2 МБ');
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                formPreview.innerHTML = `<img src="${e.target.result}" alt="фото">`;
+            };
+            reader.onerror = function (e) {
+                alert('Ошибка');
+            };
+            reader.readAsDataURL(file);
+        }*/
 });
